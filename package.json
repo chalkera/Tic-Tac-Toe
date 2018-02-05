@@ -1,0 +1,13 @@
+{
+  "name": "Tik-Tac-Toe",
+  "version": "1.0.0",
+  "description": "Tic tac toe command line",
+  "main": "app.js",
+  "repository": "https://github.com/chalkera/Tik-Tac-Toe.git",
+  "author": "Andrew Chalker",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "readline": "^1.3.0"
+  }
+}
