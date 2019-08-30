@@ -1,43 +1,43 @@
 const prompt = require('prompt-sync')();
 const { Board } = require('./helpers');
+const { Player } = require('./Player');
 
-console.log('Welcome to a game of Tic Tac Toe!')
-let player1 = prompt('Player 1: What\s your name? ', "Player 1 ");
-let player2 = prompt('Player 2: What\s your name? ', "Player 2 ");
+console.log('Welcome to a game of Tic Tac Toe!');
+const player1 = new Player("X");
+const player2 = new Player("O");
+
+let name1 = prompt('Player 1: What\s your name? ', "Player 1");
+player1.SetName(name1);
+
+let name2 = prompt('Player 2: What\s your name? ', "Player 2");
+player2.SetName(name2);
+
 let cp = player1; // current player
 let cpm = 'X'; // current player move
 
-console.log(player1 + ' will go first and will be an "X"')
-console.log(player2 + ' will go second and will be an "O"')
+console.log(player1.name + ' will go first and will be an "X"');
+console.log(player2.name + ' will go second and will be an "O"');
+console.log('Enter "exit" or "done" at anytime to end the game.');
 
 let board = new Board();
-board.printBoard();
+board.print();
 
 let rowMove, colMove;
 
 for(let i = 0; i < 9; i ++) {
-  rowMove = prompt(cp + 'please select a row number 1, 2, or 3 - ');
-  colMove = prompt(cp + 'please select a column number 1, 2, or 3 - ');
-
-  rowMove = rowMove - 1;
-  colMove = colMove - 1;
-
-  if(board.board[rowMove][colMove] === ' ') {
-    board.board[rowMove][colMove] = cpm
-  } else {
-    console.log('Unable to move there, please try again');
-    rowMove = prompt(cp + 'please select a row number 1, 2, or 3 - ');
-    colMove = prompt(cp + 'please select a column number 1, 2, or 3 - ');
-  }
-
-  board.printBoard();
+  [rowMove, colMove] = cp.GetMove(board.board); // returns an array [row, col]
+  board.board[rowMove][colMove] = cpm
+  process.stdout.write('\033c');
+  console.log(player1.name + ' will go first and will be an "X"\n' + player2.name + ' will go second and will be an "O"\nEnter "exit" or "done" at anytime to end the game.' )
+  board.print();
 
   // Check board for any three in a rows for a winner
   if( board.checkWin() ) {
     // Winner found!
     console.log("- - - - - - - - - - - - - - - - - - - - - - -");
-    console.log('WINNER!')
-    return 'Congratulations ' + cp;
+    console.log('WINNER! Congratulations ' + cp.name);
+    process.exit();
+    return;
   }
 
   // Switch current player and current player move piece
@@ -50,4 +50,5 @@ for(let i = 0; i < 9; i ++) {
   }
 }
 
-console.log("Game Over! Cat's game, try again.")
+console.log("Game Over! Cat's game, try again.");
+process.exit();

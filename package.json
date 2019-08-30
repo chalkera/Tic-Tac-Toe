@@ -1,5 +1,5 @@
 {
-  "name": "Tik-Tac-Toe",
+  "name": "Tic-Tac-Toe",
   "version": "1.0.0",
   "description": "Tic tac toe command line",
   "main": "app.js",

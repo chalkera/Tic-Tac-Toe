@@ -1,6 +1,7 @@
 const chai = require('chai');
 const mocha = require('mocha');
 const { Board } = require('./helpers');
+const { Player } = require('./Player');
 var expect = chai.expect;
 
 describe('Class Board', function() {
@@ -228,6 +229,80 @@ describe('Class Board', function() {
       board.board[1][1] = 'O';
       board.board[2][2] = 'O';
       expect(board.checkWin()).to.equal(true);
+    });
+  });
+});
+
+describe('Class Player', function() {
+  let player;
+  let board;
+  this.beforeEach(() => {
+    player = new Player("X");
+    board = new Board();
+  });
+
+  describe('SetName', () => {
+    it('should be able to set a new name', () => {
+        player.SetName("TEST");
+        expect(player.name === "TEST");
+        player.SetName("Second TEST");
+        expect(player.name === "Second TEST");
+    });
+  });
+  
+  describe('SetPiece', () => {
+    it('should start with a default value', () => {
+      expect(player.piece === "X");
+    });
+
+    it('should be able to set a new game piece', () => {
+        expect(player.piece === "X");
+        player.SetPiece("O")
+        expect(player.piece === "O");
+    });
+  });
+  
+  describe('GetMove', () => {
+    it('should handle valid moves', () => {
+      let move = player.getTestMove(board.board, 1, 1);
+      expect(move.length === 2);
+      expect(move[0] === 0 && move[1] === 0);
+    });
+
+    it('should handle invalid moves', () => {
+      try {
+        let move = player.getTestMove(board.board, 0, 0);
+      } catch (error) {
+        expect(error !== null)
+        expect(error.message === "Cannot read property '-1' of undefined");
+      }
+    });
+  });
+
+  describe('checkMove', () => {
+    it('should return true for a valid entry', () => {
+      let isValid = player.checkMove("1");
+      expect(isValid);
+
+      isValid = player.checkMove("2");
+      expect(isValid);
+
+      isValid = player.checkMove("3");
+      expect(isValid);
+    });
+
+    it('should return false for a invalid entry', () => {
+      let isValid = player.checkMove(1);
+      expect(!isValid);
+
+      isValid = player.checkMove(false);
+      expect(!isValid);
+
+      isValid = player.checkMove(undefined);
+      expect(!isValid);
+
+      isValid = player.checkMove("Not a normal entry");
+      expect(!isValid);
     });
   });
 });

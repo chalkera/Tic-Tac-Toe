@@ -7,7 +7,7 @@ class Board {
     ];
   }
 
-  printBoard() {
+  print() {
     console.log("                                         ");
     console.log("          1   2   3  ");
     console.log("        ~~~~~~~~~~~~~");
